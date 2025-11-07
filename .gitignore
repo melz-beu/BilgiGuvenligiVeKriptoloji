@@ -1,0 +1,38 @@
+# ========== Python Backend ==========
+__pycache__/
+*.py[cod]
+*.pyo
+*.pyd
+*.db
+*.sqlite3
+
+# Virtual environments
+venv/
+.env/
+
+# Logs
+*.log
+
+# ========== Flutter / Frontend ==========
+# Build outputs
+build/
+.dart_tool/
+.flutter-plugins
+.flutter-plugins-dependencies
+.packages
+.pub-cache/
+pubspec.lock
+node_modules/
+dist/
+
+# IDE settings
+.idea/
+.vscode/
+
+# ========== General ==========
+.DS_Store
+Thumbs.db
+*.tmp
+*.bak
+*.zip
+*.rar

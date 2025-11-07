@@ -1,0 +1,19 @@
+# Flask Micro Web Framework - Makalede belirtilen
+flask==2.3.3
+flask-cors==4.0.0
+
+# Blockchain ve güvenlik
+cryptography==41.0.7
+pyjwt==2.8.0
+werkzeug==2.3.7
+
+# Veritabanı
+sqlalchemy==2.0.23
+python-dotenv==1.0.0
+
+# API ve veri işleme
+requests==2.31.0
+json5==0.9.14
+
+# Utility
+uuid==1.30
