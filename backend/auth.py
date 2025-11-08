@@ -150,7 +150,9 @@ class AuthService:
             print(f"🔐 Register - Password hash: {password_hash}")
             
             # Kullanıcı türüne göre nesne oluştur
-            from models.user import Patient, Doctor, Admin
+            from models.patient import Patient
+            from models.doctor import Doctor
+            from models.admin import Admin
             
             user_id = f"{user_data['user_type']}_{datetime.datetime.now().strftime('%Y%m%d%H%M%S')}"
             

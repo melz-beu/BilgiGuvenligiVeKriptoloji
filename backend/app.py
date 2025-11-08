@@ -16,7 +16,9 @@ from mining import MiningEngine, DifficultyManager
 from iot_oximeter import OximeterManager
 from database import DatabaseManager
 from auth import AuthService, token_required, admin_required, doctor_or_admin_required
-from models.user import Patient, Doctor, Admin
+from models.patient import Patient
+from models.doctor import Doctor
+from models.admin import Admin
 from models.medical_data import OximeterData, SleepApneaRecord
 
 class LightMedChainAPI:
