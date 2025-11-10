@@ -33,7 +33,8 @@ class User:
             'email': self.email,
             'user_type': self.user_type,
             'created_at': self.created_at,
-            'is_active': self.is_active
+            'is_active': self.is_active,
+            'password_hash': self.password_hash,
         }
     
     def to_json(self):

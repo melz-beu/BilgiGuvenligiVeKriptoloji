@@ -26,28 +26,41 @@ class _PatientDashboardState extends State<PatientDashboard> {
   void initState() {
     super.initState();
     _loadUserData();
+    _loadToken(); // ← YENİ METOD
     _loadMedicalData();
   }
 
-void _loadUserData() async {
-  print("🔍 DEBUG - _loadUserData started");
-  final authService = Provider.of<AuthService>(context, listen: false);
-  final user = await authService.getCurrentUser();
-  print("🔍 DEBUG - User from auth: $user");
-  print("🔍 DEBUG - User type: ${user?.runtimeType}");
-  
-  if (user is Patient) {
-    setState(() {
-      _currentUser = user;
-    });
-    print("✅ DEBUG - Patient set: ${user.username}");
-    
-    // Medical data'yı da yükle
-    _loadMedicalData();
-  } else {
-    print("❌ DEBUG - User is not Patient");
+  void _loadToken() async {
+    final authService = Provider.of<AuthService>(context, listen: false);
+    final apiService = Provider.of<ApiService>(context, listen: false);
+
+    final token = await authService.getToken();
+    if (token != null) {
+      apiService.setToken(token);
+      print('✅ DEBUG - Token loaded to API service');
+    } else {
+      print('❌ DEBUG - No token found');
+    }
   }
-}
+
+  void _loadUserData() async {
+    print("🔍 DEBUG - _loadUserData started");
+    final authService = Provider.of<AuthService>(context, listen: false);
+    final user = await authService.getCurrentUser();
+
+    print("🔍 DEBUG - User from auth: $user");
+    print("🔍 DEBUG - User runtimeType: ${user?.runtimeType}");
+    print("🔍 DEBUG - User type: ${user?.userType}");
+
+    if (user is Patient) {
+      setState(() {
+        _currentUser = user;
+      });
+      print("✅ DEBUG - Patient set: ${user.username}");
+    } else {
+      print("❌ DEBUG - User is not Patient, actual type: ${user?.runtimeType}");
+    }
+  }
 
   void _loadMedicalData() async {
     final apiService = Provider.of<ApiService>(context, listen: false);

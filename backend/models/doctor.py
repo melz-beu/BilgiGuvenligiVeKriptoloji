@@ -1,4 +1,5 @@
 # doctor.py
+import json
 from models.user import User
 
 class Doctor(User):
@@ -31,10 +32,15 @@ class Doctor(User):
             'specialization': self.specialization,
             'hospital': self.hospital,
             'patients': self.patients,
-            'password_hash': self.password_hash, 
+ 
         })
         return base_dict
 
+'''    
+    def to_json(self):
+        """Doktor nesnesini JSON formatına dönüştürür"""
+        return json.dumps(self.to_dict(), indent=2, ensure_ascii=False)
+'''
 class DoctorManager:
     """Doktor yöneticisi"""
     # ... DoctorManager metodları

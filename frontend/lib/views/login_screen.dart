@@ -1,5 +1,6 @@
 // Giriş ekranı - Tüm kullanıcı türleri için
 import 'package:flutter/material.dart';
+import 'package:lightmedchain/services/api_service.dart';
 import 'package:provider/provider.dart';
 import '../services/auth_service.dart';
 import 'package:go_router/go_router.dart';
@@ -19,11 +20,25 @@ class _LoginScreenState extends State<LoginScreen> {
 
   // Demo hesaplar
   final List<Map<String, String>> _demoAccounts = [
-    {'username': 'hasta', 'password': '123456', 'role': 'Hasta', 'route': '/patient'},
-    {'username': 'doktor', 'password': '123456', 'role': 'Doktor', 'route': '/doctor'},
-    {'username': 'admin', 'password': '123456', 'role': 'Yönetici', 'route': '/admin'},
+    {
+      'username': 'hasta',
+      'password': '123456',
+      'role': 'Hasta',
+      'route': '/patient'
+    },
+    {
+      'username': 'doktor',
+      'password': '123456',
+      'role': 'Doktor',
+      'route': '/doctor'
+    },
+    {
+      'username': 'admin',
+      'password': '123456',
+      'role': 'Yönetici',
+      'route': '/admin'
+    },
   ];
-
   void _login() async {
     if (_formKey.currentState!.validate()) {
       setState(() {
@@ -32,34 +47,49 @@ class _LoginScreenState extends State<LoginScreen> {
 
       try {
         final authService = Provider.of<AuthService>(context, listen: false);
+        final apiService = Provider.of<ApiService>(context, listen: false);
+
+        print("🔍 DEBUG - Attempting login with: ${_usernameController.text}");
+
         final user = await authService.login(
           _usernameController.text.trim(),
           _passwordController.text.trim(),
         );
 
-        if (user != null) 
-          await authService.saveUser(user);  
+        print("🔍 DEBUG - Login result: $user");
+        print("🔍 DEBUG - User type: ${user?.userType}");
 
-        // Kullanıcı türüne göre yönlendirme
-        switch (user!.userType) {
-          case 'patient':
-            context.go('/patient');
-            break;
-          case 'doctor':
-            context.go('/doctor');
-            break;
-          case 'admin':
-            context.go('/admin');
-            break;
+        if (user != null) {
+          // ⭐⭐ BU KODLARI SİLİN/KALDIRIN ⭐⭐
+          // final token = "demo_token_${user.userId}_${DateTime.now().millisecondsSinceEpoch}";
+          // await authService.saveToken(token);
+          // apiService.setToken(token);
+
+          // ⭐⭐ YERİNE SADECE BUNU EKLEYİN ⭐⭐
+          // Token zaten AuthService'de kaydedildi, sadece API Service'e set edelim
+          final token = await authService.getToken();
+          if (token != null) {
+            apiService.setToken(token);
+            print("✅ DEBUG - Token set to API service from AuthService");
+          }
+
+          print("✅ DEBUG - Login successful, redirecting...");
+
+          // Kullanıcı türüne göre yönlendirme
+          switch (user.userType) {
+            case 'patient':
+              context.go('/patient');
+              break;
+            case 'doctor':
+              context.go('/doctor');
+              break;
+            case 'admin':
+              context.go('/admin');
+              break;
+          }
         }
-
-        ScaffoldMessenger.of(context).showSnackBar(
-          SnackBar(
-            content: Text('Hoş geldiniz, ${user.fullName ?? user.username}!'),
-            backgroundColor: Colors.green,
-          ),
-        );
       } catch (e) {
+        print("❌ DEBUG - Login error: $e");
         ScaffoldMessenger.of(context).showSnackBar(
           SnackBar(
             content: Text('Giriş başarısız: $e'),
@@ -77,10 +107,11 @@ class _LoginScreenState extends State<LoginScreen> {
   void _useDemoAccount(String username, String password, String role) {
     _usernameController.text = username;
     _passwordController.text = password;
-    
+
     ScaffoldMessenger.of(context).showSnackBar(
       SnackBar(
-        content: Text('$role demo hesabı yüklendi. Giriş yap butonuna tıklayın.'),
+        content:
+            Text('$role demo hesabı yüklendi. Giriş yap butonuna tıklayın.'),
         backgroundColor: Colors.blue,
       ),
     );
@@ -204,7 +235,8 @@ class _LoginScreenState extends State<LoginScreen> {
                                     height: 20,
                                     child: CircularProgressIndicator(
                                       strokeWidth: 2,
-                                      valueColor: AlwaysStoppedAnimation<Color>(Colors.white),
+                                      valueColor: AlwaysStoppedAnimation<Color>(
+                                          Colors.white),
                                     ),
                                   )
                                 : const Text(
@@ -243,28 +275,29 @@ class _LoginScreenState extends State<LoginScreen> {
                       ),
                       const SizedBox(height: 12),
                       ..._demoAccounts.map((account) => Padding(
-                        padding: const EdgeInsets.only(bottom: 8.0),
-                        child: ListTile(
-                          leading: Icon(
-                            Icons.account_circle,
-                            color: Colors.blue[600],
-                          ),
-                          title: Text('${account['role']} Hesabı'),
-                          subtitle: Text('Kullanıcı: ${account['username']} | Şifre: ${account['password']}'),
-                          trailing: ElevatedButton(
-                            onPressed: () => _useDemoAccount(
-                              account['username']!,
-                              account['password']!,
-                              account['role']!,
+                            padding: const EdgeInsets.only(bottom: 8.0),
+                            child: ListTile(
+                              leading: Icon(
+                                Icons.account_circle,
+                                color: Colors.blue[600],
+                              ),
+                              title: Text('${account['role']} Hesabı'),
+                              subtitle: Text(
+                                  'Kullanıcı: ${account['username']} | Şifre: ${account['password']}'),
+                              trailing: ElevatedButton(
+                                onPressed: () => _useDemoAccount(
+                                  account['username']!,
+                                  account['password']!,
+                                  account['role']!,
+                                ),
+                                child: const Text('Kullan'),
+                              ),
+                              tileColor: Colors.grey[50],
+                              shape: RoundedRectangleBorder(
+                                borderRadius: BorderRadius.circular(8),
+                              ),
                             ),
-                            child: const Text('Kullan'),
-                          ),
-                          tileColor: Colors.grey[50],
-                          shape: RoundedRectangleBorder(
-                            borderRadius: BorderRadius.circular(8),
-                          ),
-                        ),
-                      )),
+                          )),
                     ],
                   ),
                 ),
@@ -288,10 +321,14 @@ class _LoginScreenState extends State<LoginScreen> {
                         ),
                       ),
                       const SizedBox(height: 12),
-                      _buildFeatureItem('🔒 Blockchain Güvenliği', 'Tüm tıbbi kayıtlar blockchain ile korunuyor'),
-                      _buildFeatureItem('📊 Gerçek Zamanlı Veri', 'Oksimetre verileri anlık takip ediliyor'),
-                      _buildFeatureItem('⚡ Hafif Madencilik', 'Leading-zero algoritması ile hızlı işlemler'),
-                      _buildFeatureItem('🏥 Sleep Apnea Takibi', 'SpO2 ve BPM verileri ile hasta izleme'),
+                      _buildFeatureItem('🔒 Blockchain Güvenliği',
+                          'Tüm tıbbi kayıtlar blockchain ile korunuyor'),
+                      _buildFeatureItem('📊 Gerçek Zamanlı Veri',
+                          'Oksimetre verileri anlık takip ediliyor'),
+                      _buildFeatureItem('⚡ Hafif Madencilik',
+                          'Leading-zero algoritması ile hızlı işlemler'),
+                      _buildFeatureItem('🏥 Sleep Apnea Takibi',
+                          'SpO2 ve BPM verileri ile hasta izleme'),
                     ],
                   ),
                 ),

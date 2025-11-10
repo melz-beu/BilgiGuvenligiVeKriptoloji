@@ -27,12 +27,13 @@ class LightMedChainAPI:
     def __init__(self):
         self.app = Flask(__name__)
         self.app.config.from_object(Config)
-        CORS(self.app)  # CORS desteği
+        CORS(self.app) 
         
-        # Sistem bileşenlerini başlat
-        self.blockchain = Blockchain()
-        self.oximeter_manager = OximeterManager()
+        # ⭐ ÖNCE database'i oluştur
         self.database = DatabaseManager()
+        # Sistem bileşenlerini başlat
+        self.blockchain = Blockchain(database_manager=self.database)
+        self.oximeter_manager = OximeterManager()
         self.mining_engine = MiningEngine()
         self.difficulty_manager = DifficultyManager()
         self.auth_service = AuthService()

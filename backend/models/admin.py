@@ -1,4 +1,5 @@
 # admin.py
+from flask import json
 from models.user import User
 
 class Admin(User):
@@ -21,10 +22,15 @@ class Admin(User):
         base_dict.update({
             'full_name': self.full_name,
             'permissions': self.permissions,
-            'password_hash': self.password_hash, 
+#            'password_hash': self.password_hash, 
         })
         return base_dict
 
+'''    
+    def to_json(self):
+        """Admin nesnesini JSON formatına dönüştürür"""
+        return json.dumps(self.to_dict(), indent=2, ensure_ascii=False)
+'''
 class AdminManager:
     """Admin yöneticisi"""
     # ... AdminManager metodları

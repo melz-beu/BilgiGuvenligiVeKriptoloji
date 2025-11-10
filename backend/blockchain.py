@@ -7,17 +7,97 @@ from config import Config
 class Blockchain:
     """Blockchain sınıfı - Tüm zincir işlemlerini yönetir"""
     
-    def __init__(self, difficulty=Config.BLOCKCHAIN_DIFFICULTY):
+    def __init__(self, difficulty=Config.BLOCKCHAIN_DIFFICULTY,  database_manager=None ):
         """
         Blockchain nesnesi oluşturur
         
         Args:
             difficulty (int): Madencilik zorluk seviyesi
         """
-        self.chain = [self.create_genesis_block()]
-        self.difficulty = difficulty
+        # ⭐ DATABASE MANAGER'ı kaydedelim
+        self.database = database_manager
+
+                # ⭐ DATABASE'DEN YÜKLEME YAPALIM
+        saved_state = self.load_from_database()
+        if saved_state:
+            print("✅ Önceki blockchain veritabanından yüklendi!")
+            self.chain = saved_state['chain']
+            self.difficulty = saved_state['difficulty']
+        else:
+            print("🌱 Yeni genesis bloğu oluşturuldu!")
+            self.chain = [self.create_genesis_block()]
+            self.difficulty = difficulty
         self.pending_data = []  # Blok oluşturulmayı bekleyen veriler
         self.mining_reward = Config.BLOCKCHAIN_REWARD
+    def load_from_database(self):
+        """Blockchain'i veritabanından yükler"""
+        if not self.database:
+            print("⚠️  Database manager bulunamadı - yeni zincir başlatılıyor")
+            return None
+        
+        try:
+            saved_state = self.database.get_blockchain_state()
+            if not saved_state:
+                print("ℹ️  Kayıtlı blockchain bulunamadı - yeni başlatılıyor")
+                return None
+            
+            # JSON verisini parse et
+            chain_data = json.loads(saved_state['chain_data'])
+            
+            # Dict'leri Block nesnelerine dönüştür
+            chain_objects = []
+            for block_dict in chain_data['chain']:
+                block = Block(
+                    index=block_dict['index'],
+                    timestamp=block_dict['timestamp'],
+                    data=block_dict['data'],
+                    previous_hash=block_dict['previous_hash'],
+                    nonce=block_dict['nonce'],
+                    hash_value=block_dict['hash']  # Önceden hesaplanmış hash
+                )
+                chain_objects.append(block)
+            
+            return {
+                'chain': chain_objects,
+                'difficulty': chain_data['difficulty']
+            }
+            
+        except Exception as e:
+            print(f"❌ Blockchain yükleme hatası: {e}")
+            return None
+
+    def save_to_database(self):
+        """Blockchain'i veritabanına kaydeder"""
+        if not self.database:
+            print("⚠️  Database manager bulunamadı - kayıt yapılamadı")
+            return False
+        
+        try:
+            # Blockchain verisini hazırla
+            chain_data = {
+                'chain': [block.to_dict() for block in self.chain],
+                'difficulty': self.difficulty
+            }
+            
+            # JSON'a dönüştür
+            chain_json = json.dumps(chain_data, indent=2)
+            
+            # Veritabanına kaydet
+            success = self.database.save_blockchain_state(
+                chain_data=chain_json,
+                difficulty=self.difficulty
+            )
+            
+            if success:
+                print(f"💾 Blockchain kaydedildi! Blok sayısı: {len(self.chain)}")
+            else:
+                print("❌ Blockchain kaydedilemedi!")
+                
+            return success
+            
+        except Exception as e:
+            print(f"❌ Blockchain kaydetme hatası: {e}")
+            return False
     
     def create_genesis_block(self):
         """Genesis bloğu oluşturur ve döndürür"""
@@ -85,6 +165,9 @@ class Blockchain:
         # Bekleyen verileri temizle
         self.pending_data = []
         
+        # ⭐ YENİ: OTOMATİK DATABASE'E KAYDET
+        self.save_to_database()
+
         print(f"✅ Blok #{new_block.index} zincire eklendi!")
         print(f"📊 Zincir uzunluğu: {len(self.chain)}")
         

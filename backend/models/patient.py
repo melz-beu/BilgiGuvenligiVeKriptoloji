@@ -186,10 +186,10 @@ class Patient(User):
         })
         return base_dict
     
-    def to_json(self):
+'''    def to_json(self):
         """Hasta nesnesini JSON formatına dönüştürür"""
         return json.dumps(self.to_dict(), indent=2, ensure_ascii=False)
-
+'''
 
 class PatientManager:
     """Hasta yöneticisi - Hasta işlemlerini yönetir"""
