@@ -29,6 +29,8 @@ class Blockchain:
             self.difficulty = difficulty
         self.pending_data = []  # Blok oluşturulmayı bekleyen veriler
         self.mining_reward = Config.BLOCKCHAIN_REWARD
+        
+        
     def load_from_database(self):
         """Blockchain'i veritabanından yükler"""
         if not self.database:

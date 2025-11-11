@@ -3,8 +3,9 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:fl_chart/fl_chart.dart';
 import 'package:lightmedchain/app/routes/app_routes.dart';
+import 'package:lightmedchain/modules/patient/patient_controller.dart';
 import 'package:lightmedchain/services/auth_service.dart';
-import 'patient_controller.dart';
+
 
 class PatientView extends GetView<PatientController> {
   @override

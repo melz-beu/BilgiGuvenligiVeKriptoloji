@@ -3,6 +3,9 @@ import json
 import sqlite3
 from pathlib import Path
 from config import Config
+# datetime import'u ekleyelim
+from datetime import datetime
+
 
 class DatabaseManager:
     """Veritabanı yöneticisi - Tüm veritabanı işlemlerini yönetir"""
@@ -366,5 +369,3 @@ class DatabaseManager:
             print(f"❌ Blockchain durumu getirme hatası: {e}")
             return None
 
-# datetime import'u ekleyelim
-from datetime import datetime
