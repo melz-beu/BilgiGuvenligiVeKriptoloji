@@ -7,67 +7,67 @@ part of 'user_model.dart';
 // **************************************************************************
 
 User _$UserFromJson(Map<String, dynamic> json) => User(
-      userId: json['userId'] as String,
+      userId: json['user_id'] as String,
       username: json['username'] as String,
       email: json['email'] as String,
-      userType: json['userType'] as String,
-      fullName: json['fullName'] as String?,
-      createdAt: json['createdAt'] as String,
-      isActive: json['isActive'] as bool,
+      userType: json['user_type'] as String,
+      fullName: json['full_name'] as String?,
+      createdAt: json['created_at'] as String,
+      isActive: json['is_active'] as bool,
     );
 
 Map<String, dynamic> _$UserToJson(User instance) => <String, dynamic>{
-      'userId': instance.userId,
+      'user_id': instance.userId,
       'username': instance.username,
       'email': instance.email,
-      'userType': instance.userType,
-      'fullName': instance.fullName,
-      'createdAt': instance.createdAt,
-      'isActive': instance.isActive,
+      'user_type': instance.userType,
+      'full_name': instance.fullName,
+      'created_at': instance.createdAt,
+      'is_active': instance.isActive,
     };
 
 Patient _$PatientFromJson(Map<String, dynamic> json) => Patient(
-      userId: json['userId'] as String,
+      userId: json['user_id'] as String,
       username: json['username'] as String,
       email: json['email'] as String,
-      fullName: json['fullName'] as String?,
-      createdAt: json['createdAt'] as String,
-      isActive: json['isActive'] as bool,
-      dateOfBirth: json['dateOfBirth'] as String?,
+      fullName: json['full_name'] as String?,
+      createdAt: json['created_at'] as String,
+      isActive: json['is_active'] as bool,
+      dateOfBirth: json['date_of_birth'] as String?,
       gender: json['gender'] as String?,
       phone: json['phone'] as String?,
-      emergencyContact: json['emergencyContact'] as String?,
-      medicalConditions: (json['medicalConditions'] as List<dynamic>?)
+      emergencyContact: json['emergency_contact'] as String?,
+      medicalConditions: (json['medical_conditions'] as List<dynamic>?)
           ?.map((e) => e as String)
           .toList(),
-      assignedDoctors: (json['assignedDoctors'] as List<dynamic>?)
+      assignedDoctors: (json['assigned_doctors'] as List<dynamic>?)
           ?.map((e) => e as String)
           .toList(),
     );
 
 Map<String, dynamic> _$PatientToJson(Patient instance) => <String, dynamic>{
-      'userId': instance.userId,
+      'user_id': instance.userId,
       'username': instance.username,
       'email': instance.email,
-      'fullName': instance.fullName,
-      'createdAt': instance.createdAt,
-      'isActive': instance.isActive,
-      'dateOfBirth': instance.dateOfBirth,
+      'full_name': instance.fullName,
+      'created_at': instance.createdAt,
+      'is_active': instance.isActive,
+      'date_of_birth': instance.dateOfBirth,
       'gender': instance.gender,
       'phone': instance.phone,
-      'emergencyContact': instance.emergencyContact,
-      'medicalConditions': instance.medicalConditions,
-      'assignedDoctors': instance.assignedDoctors,
+      'emergency_contact': instance.emergencyContact,
+      'medical_conditions': instance.medicalConditions,
+      'assigned_doctors': instance.assignedDoctors,
     };
 
 Doctor _$DoctorFromJson(Map<String, dynamic> json) => Doctor(
-      userId: json['userId'] as String,
+      userId: json['user_id'] as String,
       username: json['username'] as String,
       email: json['email'] as String,
-      fullName: json['fullName'] as String?,
-      createdAt: json['createdAt'] as String,
-      isActive: json['isActive'] as bool,
-      licenseNumber: json['licenseNumber'] as String,
+      fullName: json['full_name'] as String?,
+      createdAt: json['created_at'] as String,
+      isActive: json['is_active'] as bool,
+      licenseNumber: json['license_number'] as String,
       specialization: json['specialization'] as String,
       hospital: json['hospital'] as String?,
       patients: (json['patients'] as List<dynamic>?)
@@ -76,36 +76,36 @@ Doctor _$DoctorFromJson(Map<String, dynamic> json) => Doctor(
     );
 
 Map<String, dynamic> _$DoctorToJson(Doctor instance) => <String, dynamic>{
-      'userId': instance.userId,
+      'user_id': instance.userId,
       'username': instance.username,
       'email': instance.email,
-      'fullName': instance.fullName,
-      'createdAt': instance.createdAt,
-      'isActive': instance.isActive,
-      'licenseNumber': instance.licenseNumber,
+      'full_name': instance.fullName,
+      'created_at': instance.createdAt,
+      'is_active': instance.isActive,
+      'license_number': instance.licenseNumber,
       'specialization': instance.specialization,
       'hospital': instance.hospital,
       'patients': instance.patients,
     };
 
 Admin _$AdminFromJson(Map<String, dynamic> json) => Admin(
-      userId: json['userId'] as String,
+      userId: json['user_id'] as String,
       username: json['username'] as String,
       email: json['email'] as String,
-      fullName: json['fullName'] as String?,
-      createdAt: json['createdAt'] as String,
-      isActive: json['isActive'] as bool,
+      fullName: json['full_name'] as String?,
+      createdAt: json['created_at'] as String,
+      isActive: json['is_active'] as bool,
       permissions: (json['permissions'] as List<dynamic>)
           .map((e) => e as String)
           .toList(),
     );
 
 Map<String, dynamic> _$AdminToJson(Admin instance) => <String, dynamic>{
-      'userId': instance.userId,
+      'user_id': instance.userId,
       'username': instance.username,
       'email': instance.email,
-      'fullName': instance.fullName,
-      'createdAt': instance.createdAt,
-      'isActive': instance.isActive,
+      'full_name': instance.fullName,
+      'created_at': instance.createdAt,
+      'is_active': instance.isActive,
       'permissions': instance.permissions,
     };

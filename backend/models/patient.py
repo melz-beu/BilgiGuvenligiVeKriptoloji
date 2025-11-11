@@ -1,7 +1,8 @@
 # Hasta modeli - Patient sınıfı ve hasta işlemleri
 from datetime import datetime
 import json
-from .user import User
+from models.user import User
+
 
 class Patient(User):
     """Hasta sınıfı - Patient özellikleri ve metodları"""

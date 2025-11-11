@@ -7,45 +7,45 @@ part of 'medical_data_model.dart';
 // **************************************************************************
 
 MedicalData _$MedicalDataFromJson(Map<String, dynamic> json) => MedicalData(
-      dataId: json['dataId'] as String,
-      patientId: json['patientId'] as String,
-      dataType: json['dataType'] as String,
+      dataId: json['data_id'] as String,
+      patientId: json['patient_id'] as String,
+      dataType: json['data_type'] as String,
       value: (json['value'] as num?)?.toDouble(),
       timestamp: json['timestamp'] as String,
-      deviceId: json['deviceId'] as String?,
-      isProcessed: json['isProcessed'] as bool,
+      deviceId: json['device_id'] as String?,
+      isProcessed: json['is_processed'] as bool,
     );
 
 Map<String, dynamic> _$MedicalDataToJson(MedicalData instance) =>
     <String, dynamic>{
-      'dataId': instance.dataId,
-      'patientId': instance.patientId,
-      'dataType': instance.dataType,
+      'data_id': instance.dataId,
+      'patient_id': instance.patientId,
+      'data_type': instance.dataType,
       'value': instance.value,
       'timestamp': instance.timestamp,
-      'deviceId': instance.deviceId,
-      'isProcessed': instance.isProcessed,
+      'device_id': instance.deviceId,
+      'is_processed': instance.isProcessed,
     };
 
 OximeterData _$OximeterDataFromJson(Map<String, dynamic> json) => OximeterData(
-      dataId: json['dataId'] as String,
-      patientId: json['patientId'] as String,
+      dataId: json['data_id'] as String,
+      patientId: json['patient_id'] as String,
       timestamp: json['timestamp'] as String,
-      deviceId: json['deviceId'] as String?,
-      spo2Value: (json['spo2Value'] as num).toDouble(),
-      bpmValue: (json['bpmValue'] as num).toDouble(),
-      ahiIndex: json['ahiIndex'] as String,
+      deviceId: json['device_id'] as String?,
+      spo2Value: (json['spo2_value'] as num).toDouble(),
+      bpmValue: (json['bpm_value'] as num).toDouble(),
+      ahiIndex: json['ahi_index'] as String,
     );
 
 Map<String, dynamic> _$OximeterDataToJson(OximeterData instance) =>
     <String, dynamic>{
-      'dataId': instance.dataId,
-      'patientId': instance.patientId,
+      'data_id': instance.dataId,
+      'patient_id': instance.patientId,
       'timestamp': instance.timestamp,
-      'deviceId': instance.deviceId,
-      'spo2Value': instance.spo2Value,
-      'bpmValue': instance.bpmValue,
-      'ahiIndex': instance.ahiIndex,
+      'device_id': instance.deviceId,
+      'spo2_value': instance.spo2Value,
+      'bpm_value': instance.bpmValue,
+      'ahi_index': instance.ahiIndex,
     };
 
 SleepApneaRecord _$SleepApneaRecordFromJson(Map<String, dynamic> json) =>

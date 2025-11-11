@@ -5,12 +5,17 @@ part 'user_model.g.dart';
 
 @JsonSerializable()
 class User {
+  @JsonKey(name: 'user_id')
   final String userId;
   final String username;
   final String email;
+  @JsonKey(name: 'user_type')
   final String userType; // 'patient', 'doctor', 'admin'
+  @JsonKey(name: 'full_name')
   final String? fullName;
+  @JsonKey(name: 'created_at')
   final String createdAt;
+  @JsonKey(name: 'is_active')
   final bool isActive;
 
   User({
@@ -50,11 +55,15 @@ class User {
 
 @JsonSerializable()
 class Patient extends User {
+  @JsonKey(name: 'date_of_birth')  
   final String? dateOfBirth;
   final String? gender;
   final String? phone;
+  @JsonKey(name: 'emergency_contact')
   final String? emergencyContact;
+  @JsonKey(name: 'medical_conditions')
   final List<String>? medicalConditions;
+  @JsonKey(name: 'assigned_doctors')
   final List<String>? assignedDoctors;
 
   Patient({
@@ -119,6 +128,7 @@ class Patient extends User {
 
 @JsonSerializable()
 class Doctor extends User {
+  @JsonKey(name: 'license_number')  
   final String licenseNumber;
   final String specialization;
   final String? hospital;
@@ -183,6 +193,7 @@ class Admin extends User {
   final List<String> permissions;
 
   Admin({
+    
     required String userId,
     required String username,
     required String email,

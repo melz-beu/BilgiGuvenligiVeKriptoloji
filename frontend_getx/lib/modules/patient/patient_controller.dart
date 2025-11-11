@@ -39,6 +39,12 @@ class PatientController extends GetxController {
       final response = await apiService.getPatientMedicalData(currentPatient.value!.userId);
       
       if (response['database_records'] != null) {
+
+      /*  for (var i = 0; i < (response['database_records'] as List).length; i++) {
+
+          var veri = response['database_records'][i];
+          medicalData.add(veri);
+        }*/
         medicalData.assignAll(
           (response['database_records'] as List)
               .map((item) => OximeterData.fromJson(item))

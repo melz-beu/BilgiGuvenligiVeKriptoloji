@@ -58,7 +58,8 @@ class AuthService extends GetxService {
         storageService.saveToken(token);
         
         // Create user object based on type
-        final user = _createUserFromBackendResponse(userData);
+       final user = _createUserFromBackendResponse(userData);
+       // final user = User.fromJson(userData);
         storageService.saveCurrentUser(user);
         
         currentUser.value = user;

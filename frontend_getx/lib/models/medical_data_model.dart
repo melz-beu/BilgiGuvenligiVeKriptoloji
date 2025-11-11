@@ -5,12 +5,17 @@ part 'medical_data_model.g.dart';
 
 @JsonSerializable()
 class MedicalData {
+  @JsonKey(name: 'data_id')  
   final String dataId;
+  @JsonKey(name: 'patient_id')  
   final String patientId;
+  @JsonKey(name: 'data_type')  
   final String dataType; // 'SpO2', 'BPM', 'OXIMETER'
   final double? value;
   final String timestamp;
+  @JsonKey(name: 'device_id')  
   final String? deviceId;
+  @JsonKey(name: 'is_processed')  
   final bool isProcessed;
 
   MedicalData({
@@ -29,8 +34,11 @@ class MedicalData {
 
 @JsonSerializable()
 class OximeterData extends MedicalData {
+  @JsonKey(name: 'spo2_value')  
   final double spo2Value; // Oksijen satürasyonu (%)
+  @JsonKey(name: 'bpm_value')  
   final double bpmValue;  // Kalp atış hızı
+  @JsonKey(name: 'ahi_index')  
   final String ahiIndex;  // Apnea-Hypopnea Index
 
   OximeterData({
